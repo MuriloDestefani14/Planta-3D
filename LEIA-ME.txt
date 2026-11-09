@@ -1,0 +1,27 @@
+PLANTA 3D - COMO COLOCAR NO AR (uso pessoal, sem T.I.)
+
+Esta pasta e o site completo. Nao precisa de internet nem de servidor para funcionar: so de uma hospedagem de arquivos.
+
+OPCAO A - Netlify Drop (mais facil, ~5 min)
+1. Abra https://app.netlify.com/drop (crie a conta gratis com seu e-mail pessoal).
+2. Arraste esta pasta inteira (Planta3D-Site) para a area indicada.
+3. Em segundos aparece um link do tipo https://nome-aleatorio.netlify.app . Abra no celular.
+4. Se quiser, em "Site configuration" voce troca o nome do link.
+
+OPCAO B - Cloudflare Pages ou GitHub Pages
+Mesma ideia: envie a pasta como "site estatico", sem comando de build.
+
+INSTALAR COMO APP NO CELULAR (depois de abrir o link)
+- iPhone (Safari): botao Compartilhar > "Adicionar a Tela de Inicio".
+- Android (Chrome): menu ⋮ > "Instalar app" ou "Adicionar a tela inicial".
+Depois da primeira abertura com internet, ele abre tambem sem internet.
+
+ATUALIZAR UMA VERSAO NOVA
+Substitua os arquivos no mesmo site e, no arquivo sw.js, troque 'planta3d-v1' por 'planta3d-v2'. Assim os celulares baixam a versao nova.
+
+PRIVACIDADE
+Quem tiver o link consegue abrir. Nao compartilhe o endereco em lugares publicos. Nao ha dados pessoais dentro da pagina.
+
+TESTE LOCAL NO COMPUTADOR (opcional)
+Dentro desta pasta: python -m http.server 8000  e abra http://localhost:8000
+(Abrir o index.html direto com duplo clique tambem funciona, mas sem o recurso de instalar.)
