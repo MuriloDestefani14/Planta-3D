@@ -1677,7 +1677,11 @@
 </script>
 <script>
 if ('serviceWorker' in navigator && location.protocol !== 'file:') {
-  window.addEventListener('load', function () { navigator.serviceWorker.register('sw.js').catch(function () {}); });
+  window.addEventListener('load', function () {
+    navigator.serviceWorker.register('sw.js', { updateViaCache: 'none' }).then(function (r) { r.update(); }).catch(function () {});
+  });
+  var recarregou = false;
+  navigator.serviceWorker.addEventListener('controllerchange', function () { if (recarregou || !navigator.serviceWorker.controller) return; recarregou = true; location.reload(); });
 }
 </script>
 </body>
