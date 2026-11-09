@@ -67,7 +67,7 @@
   .ctl { position: fixed; top: calc(12px + env(safe-area-inset-top, 0px)); left: max(12px, env(safe-area-inset-left, 0px)); display: flex; gap: 8px; z-index: 5; }
   .ctl button { font: 600 13px var(--font); color: var(--fg); background: var(--panel); border: 1px solid var(--panel-line); border-radius: 10px; padding: 9px 14px; cursor: pointer; backdrop-filter: blur(6px); }
   .ctl button:hover { background: color-mix(in srgb, var(--accent) 18%, var(--panel)); }
-  .ctl button[aria-pressed="true"]#t-walk { background: var(--accent); color: var(--accent-fg); }
+  .ctl button[aria-pressed="true"]#t-walk, .ctl button[aria-pressed="true"]#t-labels { background: var(--accent); color: var(--accent-fg); }
   body.nomenu .bar, body.nomenu .hint { display: none; }
   [hidden] { display: none !important; }
   #joy { position: fixed; left: 18px; bottom: calc(92px + env(safe-area-inset-bottom, 0px)); width: 112px; height: 112px; border-radius: 50%; background: rgba(255,255,255,.22); border: 2px solid rgba(255,255,255,.75); touch-action: none; }
@@ -88,10 +88,10 @@
   <p id="ksub"></p>
 </div>
 <div class="hint">Arraste para girar<br>Role para aproximar<br>Botão direito para mover</div>
-<div class="ctl"><button id="t-menu" aria-pressed="true" title="Mostrar ou ocultar os botões">Ocultar menu</button><button id="t-walk" aria-pressed="false" title="Andar dentro da casa em primeira pessoa">Caminhar</button></div>
+<div class="ctl"><button id="t-menu" aria-pressed="true" title="Mostrar ou ocultar os botões">Ocultar menu</button><button id="t-labels" aria-pressed="false" title="Mostrar os nomes dos cômodos">Nomes</button><button id="t-walk" aria-pressed="false" title="Andar dentro da casa em primeira pessoa">Caminhar</button></div>
 <div id="joy" hidden><div id="knob"></div></div>
 <div class="bar">
-  <div class="seg" role="group" aria-label="Planta">
+  <div class="seg" role="group" aria-label="Planta" hidden>
     <button id="p-4" aria-pressed="true">Planta (descoberta)</button>
     <button id="p-5" aria-pressed="false">Planta (coberta)</button>
   </div>
@@ -101,7 +101,7 @@
     <button id="v-3rd" aria-pressed="false">Por dentro</button>
   </div>
   <div class="seg" id="kseg" hidden role="group" aria-label="Layout da cozinha"><span class="kl">Cozinha</span><button id="k-A" aria-pressed="false">A</button><button id="k-B" aria-pressed="false">B</button><button id="k-C" aria-pressed="false">C</button><button id="k-D" aria-pressed="false">D</button><button id="k-E" aria-pressed="false">E</button><button id="k-F" aria-pressed="false">F</button><button id="k-G" aria-pressed="false">G</button><button id="k-H" aria-pressed="false">H</button><button id="k-I" aria-pressed="true">I</button></div>
-  <div class="seg"><button id="t-labels" aria-pressed="false">Nomes</button><button id="t-door" aria-pressed="false" title="Abrir ou fechar a porta de correr entre a sala e a cozinha" hidden>Porta ripada</button><button id="t-roof" aria-pressed="true" title="Mostrar ou esconder o telhado da garagem" hidden>Telhado</button><button id="t-ent" aria-pressed="true" title="Abrir ou fechar a porta de entrada de madeira" hidden>Porta de entrada</button><button id="t-cor" aria-pressed="false" title="Abrir ou fechar a porta de correr do corredor" hidden>Porta do corredor</button><button id="t-main" aria-pressed="false" title="Abrir ou fechar a porta principal de 4 folhas" hidden>Porta principal</button></div>
+  <div class="seg"><button id="t-roof" aria-pressed="false" title="Mostrar ou esconder o telhado" hidden>Telhado</button><button id="t-ent" aria-pressed="true" title="Abrir ou fechar a porta de entrada de madeira" hidden>Porta de entrada</button><button id="t-door" aria-pressed="false" title="Abrir ou fechar a porta de correr entre a sala e a cozinha" hidden>Porta ripada</button><button id="t-cor" aria-pressed="false" title="Abrir ou fechar a porta de correr do corredor" hidden>Porta corredor</button><button id="t-main" aria-pressed="false" hidden>Porta principal</button></div>
 </div>
 
 <script src="libs/three.min.js"></script>
@@ -946,7 +946,7 @@
   }
 
   // telhado de telha cerâmica só sobre a garagem: plano único com leve caimento para o sul, apoiado em pilares
-  let roofG = null, roofOn = true;
+  let roofG = null, roofOn = false;
   function buildRoof(plan, DY, top0) {
     const zref = mz(538), slope = .03; top0 = top0 || 2.95;
     const R = plan === 2
@@ -1513,7 +1513,7 @@
 
   // ---------- câmera e vistas ----------
   const GARAGE = { 2: [319, 880], 3: [514, 653], 4: [514, 653], 5: [514, 653] };
-  let plan = 4, curView = 'iso', tween = null, walkOn = false;
+  let plan = 5, curView = 'iso', tween = null, walkOn = false;
   function fitDist(F) {
     const th = Math.tan(THREE.MathUtils.degToRad(20));
     return Math.max(F.h / (2 * th), F.w / (2 * th * camera.aspect)) * 1.02;
@@ -1568,7 +1568,7 @@
     const w = stage.clientWidth || window.innerWidth, h = stage.clientHeight || window.innerHeight;
     if (!(w > 1 && h > 1)) return;
     renderer.setSize(w, h, false); camera.aspect = w / h; camera.updateProjectionMatrix();
-    if (!ready) { ready = true; setPlan(4, true); }
+    if (!ready) { ready = true; setPlan(5, true); }
   }
   window.addEventListener('resize', resize);
   if (window.ResizeObserver) new ResizeObserver(resize).observe(stage);
