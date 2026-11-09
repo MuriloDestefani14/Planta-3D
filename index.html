@@ -95,7 +95,7 @@
     <button id="p-4" aria-pressed="true">Planta (descoberta)</button>
     <button id="p-5" aria-pressed="false">Planta (coberta)</button>
   </div>
-  <div class="seg" role="group" aria-label="Pontos de vista">
+  <div class="seg" role="group" aria-label="Pontos de vista" hidden>
     <button id="v-iso" aria-pressed="true">Vista 3D</button>
     <button id="v-top" aria-pressed="false">De cima</button>
     <button id="v-3rd" aria-pressed="false">Por dentro</button>
@@ -1452,11 +1452,13 @@
       car(254.5, 855 + DY, 4.5, 2.0, mats.paintBlack, mats.tail);
       car(383, 855 + DY, 4.75, 2.0, mats.paintWhite, mats.tail);
       pool(P.a[0], P.a[1], P.b[0], P.b[1], mats.copingLight, .06);
+      colliders.push([mx(P.a[0]) - .3, mx(P.b[0]) + .3, mz(P.a[1]) - .3, mz(P.b[1]) + .3]);
     } else {
       const c1 = p3(497, 523), c2 = p3(652, 525);
       car(c1[0], c1[1], 4.5, 2.0, mats.paintBlack, mats.tail);
       car(c2[0], c2[1], 4.9, 2.0, mats.paintWhite, mats.tail);
       pool(P.a[0], P.a[1], P.b[0], P.b[1], mats.copingDark, .2);
+      colliders.push([mx(P.a[0]) - .3, mx(P.b[0]) + .3, mz(P.a[1]) - .3, mz(P.b[1]) + .3]);
     }
 
     // área de churrasco, jantar e bilhar nos pontos marcados
@@ -1590,7 +1592,7 @@
   let wYaw = 0, wPitch = 0, wLast = 0;
   const wPos = new THREE.Vector3(), keys = {}, joy = { x: 0, y: 0 }, EYE = 1.65, WR = .25;
   const hintEl = document.querySelector('.hint'), hintDefault = hintEl.innerHTML;
-  function spawnWalk() { const sp = plan === 1 ? [480, 440, Math.PI / 2] : [235, 520, 0]; wPos.set(mx(sp[0]), EYE, mz(sp[1])); wYaw = sp[2]; wPitch = 0; }
+  function spawnWalk() { const sp = [338, 1195, 0.35]; /* fora da casa, ao lado da piscina, de frente para a casa */ wPos.set(mx(sp[0]), EYE, mz(sp[1])); wYaw = sp[2]; wPitch = 0; }
   function blocked(x, z) {
     if (plan !== 1) {                           // portas de correr fechadas bloqueiam a passagem
       if (entry && entK < .5 && Math.abs(x - entXw) < .35 && Math.abs(z - entC) < 1.1) return true;
